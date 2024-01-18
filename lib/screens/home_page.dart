@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
@@ -120,7 +120,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Config.spaceSmall,
-              AppointmentCard(),
+              const AppointmentCard(),
               Config.spaceSmall,
               const Text(
                 'Top Doctors',

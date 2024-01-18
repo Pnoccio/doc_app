@@ -24,12 +24,12 @@ class _AppointmentCardState extends State<AppointmentCard> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: <Widget>[
-              Row(
+              const Row(
                 children: [
                   CircleAvatar(
                     backgroundImage: AssetImage('assets/images/profile.png'),
                   ),
-                  const SizedBox(
+                  SizedBox(
                     width: 10,
                   ),
                   Column(

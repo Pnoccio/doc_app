@@ -43,6 +43,10 @@ class _MainLayoutState extends State<MainLayout> {
         },
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
+              icon: FaIcon(FontAwesomeIcons.home),
+              label: 'Home'
+          ),
+          BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.solidCalendarCheck),
             label: 'Appointment'
           ),
