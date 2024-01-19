@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/config.dart';
@@ -10,44 +9,40 @@ class AppointmentPage extends StatefulWidget {
   State<AppointmentPage> createState() => _AppointmentPageState();
 }
 
-enum FilterStatus {
-  upcoming,
-  complete,
-  cancel
-}
+enum FilterStatus { upcoming, complete, cancel }
 
 class _AppointmentPageState extends State<AppointmentPage> {
   FilterStatus status = FilterStatus.upcoming;
   Alignment _alignment = Alignment.centerLeft;
   List<dynamic> schedules = [
     {
-      "doctor_name":"Atufi Gege",
-      "doctor_profile":"assets/images/profile.png",
-      "category":"Dental",
-      "status":FilterStatus.upcoming,
+      "doctor_name": "Atufi Gege",
+      "doctor_profile": "assets/images/profile.png",
+      "category": "Dental",
+      "status": FilterStatus.upcoming,
     },
     {
-      "doctor_name":"Jafary Magoma",
-      "doctor_profile":"assets/images/profile.png",
-      "category":"Dental",
-      "status":FilterStatus.complete,
+      "doctor_name": "Jafary Magoma",
+      "doctor_profile": "assets/images/profile.png",
+      "category": "Dental",
+      "status": FilterStatus.complete,
     },
     {
-      "doctor_name":"Tutule Simkoko",
-      "doctor_profile":"assets/images/profile.png",
-      "category":"Respiration",
-      "status":FilterStatus.complete,
+      "doctor_name": "Tutule Simkoko",
+      "doctor_profile": "assets/images/profile.png",
+      "category": "Respiration",
+      "status": FilterStatus.complete,
     },
     {
-      "doctor_name":"Magohe Njechele",
-      "doctor_profile":"assets/images/profile.png",
-      "category":"General",
-      "status":FilterStatus.cancel,
+      "doctor_name": "Magohe Njechele",
+      "doctor_profile": "assets/images/profile.png",
+      "category": "General",
+      "status": FilterStatus.cancel,
     },
   ];
   @override
   Widget build(BuildContext context) {
-    List<dynamic> filteredSchedules = schedules.where((var schedule){
+    List<dynamic> filteredSchedules = schedules.where((var schedule) {
       // switch(schedule['status']){
       //   case 'Upcoming':
       //     schedule['status'] = FilterStatus.upcoming;
@@ -62,17 +57,14 @@ class _AppointmentPageState extends State<AppointmentPage> {
     }).toList();
     return SafeArea(
       child: Padding(
-        padding: EdgeInsets.only(left: 20, top: 20, right: 20),
+        padding: const EdgeInsets.only(left: 20, top: 20, right: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             const Text(
               'Appointment Schedule',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold
-              ),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             Config.spaceSmall,
             Stack(
@@ -81,24 +73,26 @@ class _AppointmentPageState extends State<AppointmentPage> {
                   width: double.infinity,
                   height: 40,
                   decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      for(FilterStatus filterStatus in FilterStatus.values)
+                      for (FilterStatus filterStatus in FilterStatus.values)
                         Expanded(
                           child: GestureDetector(
-                            onTap: (){
+                            onTap: () {
                               setState(() {
-                                if(filterStatus == FilterStatus.upcoming){
+                                if (filterStatus == FilterStatus.upcoming) {
                                   status = FilterStatus.upcoming;
                                   _alignment = Alignment.centerLeft;
-                                } else if(filterStatus == FilterStatus.complete){
+                                } else if (filterStatus ==
+                                    FilterStatus.complete) {
                                   status = FilterStatus.complete;
                                   _alignment = Alignment.center;
-                                } else if(filterStatus == FilterStatus.cancel){
+                                } else if (filterStatus ==
+                                    FilterStatus.cancel) {
                                   status = FilterStatus.cancel;
                                   _alignment = Alignment.centerRight;
                                 }
@@ -125,7 +119,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                     child: Center(
                       child: Text(
                         status.name,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
@@ -139,8 +133,8 @@ class _AppointmentPageState extends State<AppointmentPage> {
             Expanded(
               child: ListView.builder(
                 itemCount: filteredSchedules.length,
-                itemBuilder: ((context, index){
-                  var _shedule = filteredSchedules[index];
+                itemBuilder: ((context, index) {
+                  var schedule = filteredSchedules[index];
                   bool isLastElement = filteredSchedules.length + 1 == index;
                   return Card(
                     shape: RoundedRectangleBorder(
@@ -150,7 +144,8 @@ class _AppointmentPageState extends State<AppointmentPage> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     margin: !isLastElement
-                    ? const EdgeInsets.only(bottom: 20): EdgeInsets.zero,
+                        ? const EdgeInsets.only(bottom: 20)
+                        : EdgeInsets.zero,
                     child: Padding(
                       padding: const EdgeInsets.all(15),
                       child: Column(
@@ -159,10 +154,74 @@ class _AppointmentPageState extends State<AppointmentPage> {
                           Row(
                             children: [
                               CircleAvatar(
-                                backgroundImage: AssetImage(_schedule['doctor_profile']),
+                                backgroundImage:
+                                    AssetImage(schedule['doctor_profile']),
+                              ),
+                              const SizedBox(width: 10,),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    schedule['doctor_name'],
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    schedule['category'],
+                                    style: const TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
-                          )
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          const ScheduleCard(),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: OutlinedButton(
+                                  onPressed: () {},
+                                  child: const Text(
+                                    'Cancel',
+                                    style: TextStyle(
+                                      color: Config.primaryColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                child: OutlinedButton(
+                                  style: OutlinedButton.styleFrom(
+                                    backgroundColor: Config.primaryColor
+                                  ),
+                                  onPressed: (){},
+                                  child: const Text(
+                                    "Reschedule",
+                                    style: TextStyle(
+                                      color: Colors.white
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -172,6 +231,58 @@ class _AppointmentPageState extends State<AppointmentPage> {
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ScheduleCard extends StatelessWidget {
+  const ScheduleCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey.shade100,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      child: const Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Icon(
+            Icons.calendar_today,
+            color: Config.primaryColor,
+            size: 15,
+          ),
+          SizedBox(
+            width: 5,
+          ),
+          Text(
+            'Monday, 11/28/2022',
+            style: TextStyle(
+              color: Config.primaryColor,
+            ),
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Icon(
+            Icons.access_alarm,
+            color: Config.primaryColor,
+            size: 17,
+          ),
+          SizedBox(
+            width: 5,
+          ),
+          Flexible(
+              child: Text(
+            '2:00 PM',
+            style: TextStyle(color: Config.primaryColor),
+          )),
+        ],
       ),
     );
   }
