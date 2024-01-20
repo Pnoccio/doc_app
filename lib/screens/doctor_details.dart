@@ -1,6 +1,5 @@
 import 'package:doc_app/components/custom_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DoctorDetails extends StatefulWidget {
   const DoctorDetails({super.key});
@@ -13,7 +12,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
   bool isFav = false;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       appBar: CustomAppBar(
         appTitle: 'Doctor Details',
         // icon: FaIcon(Icons.arrow_back_ios),

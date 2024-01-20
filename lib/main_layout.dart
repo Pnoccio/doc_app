@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:doc_app/screens/appointment_page.dart';
 import 'package:doc_app/screens/home_page.dart';
 import 'package:flutter/material.dart';
