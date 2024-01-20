@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 
 import '../utils/config.dart';
 
-class DoctorCard extends StatefulWidget{
-  const DoctorCard({Key? key}) : super(key: key);
+class DoctorCard extends StatelessWidget {
+  const DoctorCard({Key? key, required this.route}) : super(key: key);
+
+  final String route;
 
   @override
-  State<DoctorCard> createState() => _DoctorCardState();
-}
-
-class _DoctorCardState extends State<DoctorCard>{
-  @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: 10,
@@ -39,22 +36,34 @@ class _DoctorCardState extends State<DoctorCard>{
                     Text(
                       'Dental',
                       style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal,
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
                       ),
                     ),
                     Spacer(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        Icon(Icons.star_border, color: Colors.yellow, size: 16,),
-                        Spacer(flex: 1,),
+                        Icon(
+                          Icons.star_border,
+                          color: Colors.yellow,
+                          size: 16,
+                        ),
+                        Spacer(
+                          flex: 1,
+                        ),
                         Text('4.5'),
-                        Spacer(flex: 1,),
+                        Spacer(
+                          flex: 1,
+                        ),
                         Text('Reviews'),
-                        Spacer(flex: 1,),
+                        Spacer(
+                          flex: 1,
+                        ),
                         Text('(20)'),
-                        Spacer(flex: 7,),
+                        Spacer(
+                          flex: 7,
+                        ),
                       ],
                     )
                   ],
@@ -63,7 +72,9 @@ class _DoctorCardState extends State<DoctorCard>{
             ],
           ),
         ),
-        onTap: () {},
+        onTap: () {
+          Navigator.of(context).pushNamed(route);
+        },
       ),
     );
   }

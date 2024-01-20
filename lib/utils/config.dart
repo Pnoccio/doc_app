@@ -47,5 +47,5 @@ class Config{
     ),
   );
 
-  static const primaryColor = Colors.greenAccent;
+  static const primaryColor = Colors.blueAccent;
 }
