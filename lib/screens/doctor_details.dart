@@ -1,7 +1,8 @@
 // ignore_for_file: sized_box_for_whitespace
 
 import 'package:doc_app/components/custom_app_bar.dart';
-import 'package:doc_app/utils/config.dart';
+import 'package:doc_app/components/detail_body.dart';
+// import 'package:doc_app/utils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -41,6 +42,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
         child: Column(
           children: <Widget>[
             AboutDoctor(),
+            DetailBody(),
           ],
         ),
       ),
