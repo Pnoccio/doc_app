@@ -17,7 +17,7 @@ class DetailBody extends StatelessWidget {
         children: <Widget>[
           Config.spaceSmall,
           const DoctorInfo(),
-          Config.spaceBig,
+          Config.spaceMedium,
           const Text(
             'About Doctor',
             style: TextStyle(
@@ -32,6 +32,8 @@ class DetailBody extends StatelessWidget {
               fontWeight: FontWeight.w500,
               height: 1.5,
             ),
+            softWrap: true,
+            textAlign: TextAlign.justify,
           )
         ],
       ),

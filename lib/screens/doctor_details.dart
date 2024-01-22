@@ -1,5 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace
 
+import 'package:doc_app/components/button.dart';
 import 'package:doc_app/components/custom_app_bar.dart';
 import 'package:doc_app/components/detail_body.dart';
 // import 'package:doc_app/utils/config.dart';
@@ -38,11 +39,23 @@ class _DoctorDetailsState extends State<DoctorDetails> {
           ),
         ],
       ),
-      body: const SafeArea(
+      body: SafeArea(
         child: Column(
           children: <Widget>[
-            AboutDoctor(),
-            DetailBody(),
+            const AboutDoctor(),
+            const DetailBody(),
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Button(
+                width: double.infinity,
+                title: 'Book Appointment',
+                onPressed: () {
+                  Navigator.of(context).pushNamed('booking_page');
+                },
+                disable: false,
+              ),
+            ),
           ],
         ),
       ),
