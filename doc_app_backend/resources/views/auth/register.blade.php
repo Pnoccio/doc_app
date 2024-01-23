@@ -19,14 +19,14 @@
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
             </div>
 
-            <div class="mt-4">
+            {{-- <div class="mt-4">
                 <x-label for="password_confirmation" value="{{ __('User Type') }}" />
                 <select name="type" id="type" class="block mt-1 w-full rounded-lg">
                     <option value="" selected disabled hidden>{{ __('Choose user Type') }}</option>
                     <option value="doctor">Doctor</option>
                     <option value="user">User</option>
                 </select>
-            </div>
+            </div> --}}
 
             <div class="mt-4">
                 <x-label for="password" value="{{ __('Password') }}" />
