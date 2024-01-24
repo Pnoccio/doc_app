@@ -1,24 +1,25 @@
-import 'package:doc_app/main.dart';
-import 'package:doc_app/models/auth_models.dart';
-import 'package:doc_app/provider/dio_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../main.dart';
+import '../models/auth_models.dart';
+import '../provider/dio_provider.dart';
 import '../utils/config.dart';
 import 'button.dart';
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+class SignUpForm extends StatefulWidget {
+  const SignUpForm({super.key});
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  State<SignUpForm> createState() => _SignUpFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool obsecurePass = true;
+  bool obscurePass = true;
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -26,6 +27,19 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
+          TextFormField(
+            controller: _nameController,
+            keyboardType: TextInputType.text,
+            cursorColor: Config.primaryColor,
+            decoration: const InputDecoration(
+              hintText: 'Username',
+              labelText: 'Username',
+              alignLabelWithHint: true,
+              prefixIcon: Icon(Icons.person_2_outlined),
+              prefixIconColor: Config.primaryColor,
+            ),
+          ),
+          Config.spaceSmall,
           TextFormField(
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
@@ -52,10 +66,10 @@ class _LoginFormState extends State<LoginForm> {
               suffixIcon: IconButton(
                 onPressed: () {
                   setState(() {
-                    obsecurePass = !obsecurePass;
+                    obscurePass = !obscurePass;
                   });
                 },
-                icon: obsecurePass
+                icon: obscurePass
                     ? const Icon(
                         Icons.visibility_off_outlined,
                         color: Colors.black38,
@@ -71,17 +85,27 @@ class _LoginFormState extends State<LoginForm> {
           Consumer<AuthModels>(builder: (context, auth, child) {
             return Button(
               width: double.infinity,
-              title: 'Sign In',
+              title: 'Sign Up',
               onPressed: () async {
-                final token = await DioProvider()
-                    .getToken(_emailController.text, _passwordController.text);
-                // final user = await DioProvider().getUser(token);
-                // print(user);
+                final userRegistration = await DioProvider().registerUser(
+                    _nameController.text,
+                    _emailController.text,
+                    _passwordController.text);
 
-                if (token) {
-                  auth.loginSuccess;
-                  MyApp.navigatorKey.currentState!.pushNamed('main');
+                if (userRegistration) {
+                  final token = await DioProvider().getToken(
+                      _emailController.text, _passwordController.text);
+                  // final user = await DioProvider().getUser(token);
+                  // print(user);
+
+                  if (token) {
+                    auth.loginSuccess;
+                    MyApp.navigatorKey.currentState!.pushNamed('main');
+                  }
+                } else {
+                  print('Register not successful');
                 }
+
                 // Navigator.of(context).pushNamed('main');
               },
               disable: false,
