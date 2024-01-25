@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import '../utils/config.dart';
 
 class AboutDoctor extends StatelessWidget {
-  const AboutDoctor({super.key});
+  const AboutDoctor({super.key, required this.doctor});
+
+  final Map<dynamic, dynamic> doctor;
 
   @override
   Widget build(BuildContext context) {
@@ -14,19 +16,18 @@ class AboutDoctor extends StatelessWidget {
       width: double.infinity,
       child: Column(
         children: <Widget>[
-          const CircleAvatar(
+          CircleAvatar(
             radius: 65.0,
-            backgroundImage: AssetImage('assets/images/profile.png'),
+            backgroundImage: NetworkImage("http://127.0.0.1:8000${doctor['doctor_profile']}"),
             backgroundColor: Colors.white,
           ),
           Config.spaceMedium,
-          const Text(
-            'Jafary Magoma',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 24.0,
-              fontWeight: FontWeight.bold
-            ),
+          Text(
+            'Dr ${doctor['doctor_name']}',
+            style: const TextStyle(
+                color: Colors.black,
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold),
           ),
           Config.spaceMedium,
           SizedBox(
@@ -47,7 +48,7 @@ class AboutDoctor extends StatelessWidget {
             child: const Text(
               'Muhimbili National Hospital',
               style: TextStyle(
-                color:  Colors.black,
+                color: Colors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 15.0,
               ),

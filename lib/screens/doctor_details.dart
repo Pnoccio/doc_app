@@ -43,8 +43,12 @@ class _DoctorDetailsState extends State<DoctorDetails> {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            const AboutDoctor(),
-            const DetailBody(),
+            AboutDoctor(
+              doctor: doctor,
+            ),
+            DetailBody(
+              doctor: doctor,
+            ),
             const Spacer(),
             Padding(
               padding: const EdgeInsets.all(20),
@@ -52,7 +56,8 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                 width: double.infinity,
                 title: 'Book Appointment',
                 onPressed: () {
-                  Navigator.of(context).pushNamed('booking_page');
+                  Navigator.of(context).pushNamed('booking_page',
+                      arguments: {"doctor_id": doctor['doc_id']});
                 },
                 disable: false,
               ),

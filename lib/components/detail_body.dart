@@ -4,19 +4,24 @@ import 'package:flutter/material.dart';
 import '../utils/config.dart';
 
 class DetailBody extends StatelessWidget {
-  const DetailBody({super.key});
+  const DetailBody({super.key, required this.doctor});
+
+  final Map<dynamic, dynamic> doctor;
 
   @override
   Widget build(BuildContext context) {
     Config().init(context);
     return Container(
-      padding: const EdgeInsets.all(20),
-      margin: const EdgeInsets.only(bottom: 30),
+      padding: const EdgeInsets.all(10),
+      // margin: const EdgeInsets.only(bottom: 30),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Config.spaceSmall,
-          const DoctorInfo(),
+          DoctorInfo(
+            patients: doctor['patients'],
+            experiecnce: doctor['experience'],
+          ),
           Config.spaceMedium,
           const Text(
             'About Doctor',
@@ -26,9 +31,9 @@ class DetailBody extends StatelessWidget {
             ),
           ),
           Config.spaceSmall,
-          const Text(
-            'Dr Jafary Magoma is an experienced Dentist at Sarawak, He graduated since 2008, and completed his training at Muhimbili National Hospital',
-            style: TextStyle(
+          Text(
+            'Dr ${doctor['doctor_name']} is an experienced ${doctor['category']} specialist at Sarawak, graduated since 2008, and completed his/her training at Muhimbili National Hospital',
+            style: const TextStyle(
               fontWeight: FontWeight.w500,
               height: 1.5,
             ),
