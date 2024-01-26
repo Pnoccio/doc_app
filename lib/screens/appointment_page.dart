@@ -1,5 +1,9 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../provider/dio_provider.dart';
 import '../utils/config.dart';
 
 class AppointmentPage extends StatefulWidget {
@@ -15,44 +19,57 @@ class _AppointmentPageState extends State<AppointmentPage> {
   FilterStatus status = FilterStatus.upcoming;
   Alignment _alignment = Alignment.centerLeft;
   List<dynamic> schedules = [
-    {
-      "doctor_name": "Atufi Gege",
-      "doctor_profile": "assets/images/profile.png",
-      "category": "Dental",
-      "status": FilterStatus.upcoming,
-    },
-    {
-      "doctor_name": "Jafary Magoma",
-      "doctor_profile": "assets/images/profile.png",
-      "category": "Dental",
-      "status": FilterStatus.complete,
-    },
-    {
-      "doctor_name": "Tutule Simkoko",
-      "doctor_profile": "assets/images/profile.png",
-      "category": "Respiration",
-      "status": FilterStatus.complete,
-    },
-    {
-      "doctor_name": "Magohe Njechele",
-      "doctor_profile": "assets/images/profile.png",
-      "category": "General",
-      "status": FilterStatus.cancel,
-    },
+    // {
+    //   "doctor_name": "Atufi Gege",
+    //   "doctor_profile": "assets/images/profile.png",
+    //   "category": "Dental",
+    //   "status": FilterStatus.upcoming,
+    // },
+    // {
+    //   "doctor_name": "Jafary Magoma",
+    //   "doctor_profile": "assets/images/profile.png",
+    //   "category": "Dental",
+    //   "status": FilterStatus.complete,
+    // },
+    // {
+    //   "doctor_name": "Tutule Simkoko",
+    //   "doctor_profile": "assets/images/profile.png",
+    //   "category": "Respiration",
+    //   "status": FilterStatus.complete,
+    // },
+    // {
+    //   "doctor_name": "Magohe Njechele",
+    //   "doctor_profile": "assets/images/profile.png",
+    //   "category": "General",
+    //   "status": FilterStatus.cancel,
+    // },
   ];
+
+  Future<void> getAppointments() async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    final token = preferences.getString('token');
+    final appointment = await DioProvider().getAppointments(token!);
+    if (appointment != 'Error') {
+      setState(() {
+        schedules = jsonDecode(appointment);
+        print(schedules);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     List<dynamic> filteredSchedules = schedules.where((var schedule) {
-      // switch(schedule['status']){
-      //   case 'Upcoming':
-      //     schedule['status'] = FilterStatus.upcoming;
-      //     break;
-      //   case 'complete':
-      //     schedule['status'] = FilterStatus.complete;
-      //     break;
-      //   case 'cancel':
-      //     schedule['status'] = FilterStatus.cancel;
-      // }
+      switch (schedule['status']) {
+        case 'Upcoming':
+          schedule['status'] = FilterStatus.upcoming;
+          break;
+        case 'complete':
+          schedule['status'] = FilterStatus.complete;
+          break;
+        case 'cancel':
+          schedule['status'] = FilterStatus.cancel;
+      }
       return schedule['status'] == status;
     }).toList();
     return SafeArea(
@@ -154,10 +171,12 @@ class _AppointmentPageState extends State<AppointmentPage> {
                           Row(
                             children: [
                               CircleAvatar(
-                                backgroundImage:
-                                    AssetImage(schedule['doctor_profile']),
+                                backgroundImage: NetworkImage(
+                                    "http://127.0.0.1:8000${schedule['doctor_profile']}"),
                               ),
-                              const SizedBox(width: 10,),
+                              const SizedBox(
+                                width: 10,
+                              ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -185,7 +204,11 @@ class _AppointmentPageState extends State<AppointmentPage> {
                           const SizedBox(
                             height: 15,
                           ),
-                          const ScheduleCard(),
+                          ScheduleCard(
+                            date: schedule['date'],
+                            day: schedule['day'],
+                            time: schedule['time'],
+                          ),
                           const SizedBox(
                             height: 15,
                           ),
@@ -209,14 +232,11 @@ class _AppointmentPageState extends State<AppointmentPage> {
                               Expanded(
                                 child: OutlinedButton(
                                   style: OutlinedButton.styleFrom(
-                                    backgroundColor: Config.primaryColor
-                                  ),
-                                  onPressed: (){},
+                                      backgroundColor: Config.primaryColor),
+                                  onPressed: () {},
                                   child: const Text(
                                     "Reschedule",
-                                    style: TextStyle(
-                                      color: Colors.white
-                                    ),
+                                    style: TextStyle(color: Colors.white),
                                   ),
                                 ),
                               ),
@@ -237,7 +257,10 @@ class _AppointmentPageState extends State<AppointmentPage> {
 }
 
 class ScheduleCard extends StatelessWidget {
-  const ScheduleCard({super.key});
+  const ScheduleCard({super.key, required this.date, required this.day, required this.time});
+  final String date;
+  final String day;
+  final String time;
 
   @override
   Widget build(BuildContext context) {
@@ -248,39 +271,39 @@ class ScheduleCard extends StatelessWidget {
       ),
       width: double.infinity,
       padding: const EdgeInsets.all(20),
-      child: const Row(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Icon(
+          const Icon(
             Icons.calendar_today,
             color: Config.primaryColor,
             size: 15,
           ),
-          SizedBox(
+          const SizedBox(
             width: 5,
           ),
           Text(
-            'Monday, 11/28/2022',
-            style: TextStyle(
+            '$day, $date',
+            style: const TextStyle(
               color: Config.primaryColor,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 20,
           ),
-          Icon(
+          const Icon(
             Icons.access_alarm,
             color: Config.primaryColor,
             size: 17,
           ),
-          SizedBox(
+          const SizedBox(
             width: 5,
           ),
           Flexible(
               child: Text(
-            '2:00 PM',
-            style: TextStyle(color: Config.primaryColor),
+            time,
+            style: const TextStyle(color: Config.primaryColor),
           )),
         ],
       ),

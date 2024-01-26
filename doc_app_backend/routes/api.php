@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function(){
     Route::get('/user', [UserController::class, 'index']);
-    Route::get('/book', [appointmentController::class], 'store');
+    Route::post('/book', [appointmentController::class], 'store');
+    Route::get('/appointment', [appointmentController::class, 'index']);
 });
 
 

@@ -19,6 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   Map<String, dynamic> user = {};
+  Map<String, dynamic> doctor = {};
   List<Map<String, dynamic>> medCategory = [
     {
       "icon": FontAwesomeIcons.userDoctor,
@@ -52,6 +53,12 @@ class _HomePageState extends State<HomePage> {
         setState(() {
           user = json.decode(response);
           print(user);
+
+          for (var doctorData in user['doctor']) {
+            if (doctorData['appointments'] != null) {
+              doctor = doctorData;
+            }
+          }
         });
       }
     }
@@ -152,7 +159,28 @@ class _HomePageState extends State<HomePage> {
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       Config.spaceSmall,
-                      const AppointmentCard(),
+                      doctor.isNotEmpty
+                          ? AppointmentCard(
+                              doctor: doctor,
+                              color: Config.primaryColor,
+                            )
+                          : Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.shade300,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: const Center(
+                                child: Padding(
+                                  padding: EdgeInsets.all(20),
+                                  child: Text(
+                                    "No Appointment Today",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              ),
+                            ),
                       Config.spaceSmall,
                       const Text(
                         'Top Doctors',

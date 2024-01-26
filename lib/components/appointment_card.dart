@@ -3,7 +3,10 @@ import 'package:doc_app/utils/config.dart';
 import 'package:flutter/material.dart';
 
 class AppointmentCard extends StatefulWidget {
-  const AppointmentCard({super.key});
+  const AppointmentCard({super.key, required this.doctor, required this.color});
+
+  final Map<String, dynamic> doctor;
+  final Color color;
 
   @override
   State<AppointmentCard> createState() => _AppointmentCardState();
@@ -15,7 +18,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Config.primaryColor,
+        color: widget.color,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Material(
@@ -24,12 +27,12 @@ class _AppointmentCardState extends State<AppointmentCard> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: <Widget>[
-              const Row(
+              Row(
                 children: [
                   CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/profile.png'),
+                    backgroundImage: NetworkImage("http://127.0.0.1:8000${widget.doctor['doctor_profile']}"),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Column(
@@ -37,15 +40,15 @@ class _AppointmentCardState extends State<AppointmentCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        'Dr Richard Usangi',
-                        style: TextStyle(color: Colors.white),
+                        'Dr ${widget.doctor['doctor_name']}',
+                        style: const TextStyle(color: Colors.white),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 2,
                       ),
                       Text(
-                        'Dental',
-                        style: TextStyle(
+                        widget.doctor['category'],
+                        style: const TextStyle(
                           color: Colors.black,
                         ),
                       ),
@@ -54,40 +57,42 @@ class _AppointmentCardState extends State<AppointmentCard> {
                 ],
               ),
               Config.spaceSmall,
-              const ScheduleCard(),
+              ScheduleCard(
+                appointment: widget.doctor['appointments'],
+              ),
               Config.spaceSmall,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
                       child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                        ),
-                        child: const Text(
-                          'Cancel',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                        onPressed: (){},
-                      )
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                    ),
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    onPressed: () {},
+                  )),
+                  const SizedBox(
+                    width: 20,
                   ),
-                  const SizedBox(width: 20,),
                   Expanded(
                       child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                        ),
-                        child: const Text(
-                          'Completed',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                        onPressed: (){},
-                      )
-                  ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                    ),
+                    child: const Text(
+                      'Completed',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    onPressed: () {},
+                  )),
                 ],
               )
             ],
