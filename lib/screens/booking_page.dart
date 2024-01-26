@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import
 
+import 'package:doc_app/main.dart';
 import 'package:doc_app/provider/dio_provider.dart';
 import 'package:doc_app/utils/config.dart';
 import 'package:flutter/material.dart';
@@ -141,7 +142,11 @@ class _BookingPageState extends State<BookingPage> {
 
                 final booking = await DioProvider().bookAppointment(
                     getDate, getDay, getTime, doctor['doctor_id'], token!);
-                Navigator.of(context).pushNamed('success_booking');
+
+                    if(booking == 200) {
+                      MyApp.navigatorKey.currentState!.pushNamed('success_booking');
+                    }
+                
               },
               disable: _timeSelected && _dateSelected ? false : true,
             ),
